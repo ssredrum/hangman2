@@ -1,0 +1,26 @@
+import random # random import for further action 
+print('hello , that is hangman game , which you guess a word')# for review 
+words = ['code','python','tree','apple','big','dog'] # a list Of words 
+word = random.choice(words) # choose random word 
+guesses = '' # person inputs its answer 
+turns = 5 # five tries 
+while turns > 0:      # while turns are greater than zero    
+    failed = 0    # and while failed  = 0          
+    for char in word:      # for character in word function 
+        if char in guesses:    # cgar in guesses function 
+            print (char,end="") # edits the final word     
+        else: # else 
+            print ("_",end=""), # edits hidden word 
+            failed += 1 # when there is at least 1 attempt 
+                
+    if failed == 0:   # if failed = 0      
+        print ("\nYou won") # you won 
+        break             # finish this function  
+    guess = input("\nguess a character:") # person guesses a word 
+    guesses += guess                    # guesses assigns to guess 
+    if guess not in word:  # if guees is not like word 
+        turns -= 1        # one tries is taken away 
+        print("\nWrong")    # print it 
+        print("\nYou have", + turns, 'more guesses') # print how much turns yo have 
+        if turns == 0:      # When yur turns = 0, and you didn't win      
+            print ("\nYou Lose") # print it
