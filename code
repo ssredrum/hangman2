@@ -1,26 +1,63 @@
-import random # random import for further action 
-print('hello , that is hangman game , which you guess a word')# for review 
-words = ['code','python','tree','apple','big','dog'] # a list Of words 
-word = random.choice(words) # choose random word 
-guesses = '' # person inputs its answer 
-turns = 5 # five tries 
-while turns > 0:      # while turns are greater than zero    
-    failed = 0    # and while failed  = 0          
-    for char in word:      # for character in word function 
-        if char in guesses:    # cgar in guesses function 
-            print (char,end="") # edits the final word     
-        else: # else 
-            print ("_",end=""), # edits hidden word 
-            failed += 1 # when there is at least 1 attempt 
-                
-    if failed == 0:   # if failed = 0      
-        print ("\nYou won") # you won 
-        break             # finish this function  
-    guess = input("\nguess a character:") # person guesses a word 
-    guesses += guess                    # guesses assigns to guess 
-    if guess not in word:  # if guees is not like word 
-        turns -= 1        # one tries is taken away 
-        print("\nWrong")    # print it 
-        print("\nYou have", + turns, 'more guesses') # print how much turns yo have 
-        if turns == 0:      # When yur turns = 0, and you didn't win      
-            print ("\nYou Lose") # print it
+from tkinter import * #import all the functions and methods
+from tkinter import messagebox # import library that show message
+from string import ascii_uppercase #for letters
+import random #for random actions
+
+
+window = Tk() #it helps to display the root window
+window.title('Hangman') #title is hangman
+word_list= ['LOVE','MURDER','STRAWBERRY','BEAR','DEER','CHINA','GIRL','BOY','ALMOND','MILK','APPLE','JOKE','UMBRELLA',
+            'STAR','RIVER','MONSTER','CAT','DOG','OCEAN','IDEA','BUNNY','AREA','EASTER','CRAFT','WAR','PUNCHER','SALT',
+            'MONKEY','FATHER','MOTHER'] #wordlist for hangman
+
+
+photos = [PhotoImage(file="C:/Users/8523~1/AppData/Local/Temp/Rar$DRa16492.6998/images/hang0.png"), PhotoImage(file="C:/Users/8523~1/AppData/Local/Temp/Rar$DRa16492.11420/images/hang1.png"), PhotoImage(file="C:/Users/8523~1/AppData/Local/Temp/Rar$DRa16492.10895/images/hang2.png"),
+PhotoImage(file="C:/Users/8523~1/AppData/Local/Temp/Rar$DRa16492.14104/images/hang3.png"), PhotoImage(file="C:/Users/8523~1/AppData/Local/Temp/Rar$DRa16492.15499/images/hang4.png"), PhotoImage(file="C:/Users/8523~1/AppData/Local/Temp/Rar$DRa16492.16907/images/hang5.png"),
+PhotoImage(file="C:/Users/8523~1/AppData/Local/Temp/Rar$DRa16492.27717/images/hang6.png"), PhotoImage(file="C:/Users/8523~1/AppData/Local/Temp/Rar$DRa16492.29146/images/hang7.png"), PhotoImage(file="C:/Users/8523~1/AppData/Local/Temp/Rar$DRa16492.31999/images/hang8.png"),
+PhotoImage(file="C:/Users/8523~1/AppData/Local/Temp/Rar$DRa16492.33801/images/hang9.png"), PhotoImage(file="C:/Users/8523~1/AppData/Local/Temp/Rar$DRa16492.45340/images/hang10.png"), PhotoImage(file="C:/Users/8523~1/AppData/Local/Temp/Rar$DRa16492.48510/images/hang11.png")] #photos for next steps
+def newGame(): #function with new game
+    global the_word_withSpaces #Return the characters space, tab, linefeed, return, formfeed, and vertical tab.
+    global numberOfGuesses #import number of guesses in new game
+    numberOfGuesses =0 #for now number of guesses = 0
+    
+    the_word=random.choice(word_list) #choose random word from random list
+    the_word_withSpaces = " ".join(the_word) #returns the number of spaces how many letters in a random word
+    lblWord.set(' '.join("_"*len(the_word))) #returns the number of spaces how many letters in a random word
+
+def guess(letter): #function with guess of letter
+	global numberOfGuesses #import number of guesses in new game
+	if numberOfGuesses<11:	# if number of guesses is lass than 11
+		txt = list(the_word_withSpaces) # text is list
+		guessed = list(lblWord.get()) # guessed is list
+		if the_word_withSpaces.count(letter)>0: #if the tries with letter is greater than 0
+			for c in range(len(txt)):# for string of length 1 in length
+				if txt[c]==letter: # c = letter
+					guessed[c]=letter # guessed c is letter
+				lblWord.set("".join(guessed))# for length random word join guessed 
+				if lblWord.get()==the_word_withSpaces: # if is guessed word = random word 
+					messagebox.showinfo("Hangman","You guessed it!") # print it window with message
+		else: # else
+			numberOfGuesses += 1 # if number of guesses 1 or are greater 
+			imgLabel.config(image=photos[numberOfGuesses]) # inser images = tries
+			if numberOfGuesses==11: # if number = 11
+					messagebox.showwarning("Hangman","Game Over") # print it window with message
+
+
+
+imgLabel=Label(window) # first window
+imgLabel.grid(row=0, column=0, columnspan=3, padx=10, pady=40) # window standarts
+imgLabel.config(image=photos[0]) # first photo is none
+
+lblWord = StringVar()  # for window with length
+Label(window, textvariable  =lblWord,font=('consolas 24 bold')).grid(row=0, column=3 ,columnspan=6,padx=10) # window standarts
+
+n=0 # expression n = 0 is true or false
+for c in ascii_uppercase: # for one letter in strings with letters
+     Button(window, text=c, command=lambda c=c: guess(c), font=('Helvetica 18'), width=4).grid(row=1+n//9,column=n%9) # make this window standarts
+     n+=1 # expression n += 0 is true or false
+
+Button(window, text="New\nGame", command=lambda:newGame(), font=("Helvetica 10 bold")).grid(row=3, column=8) # button new game with anonim command 'lambda'
+
+newGame() # tells to run new game
+window.mainloop() # tells Python to run the Tkinter event loop
+
