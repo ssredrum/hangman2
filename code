@@ -5,6 +5,8 @@ import random #for random actions
 
 
 window = Tk() #it helps to display the root window
+window.configure(bg='white') #set window color 
+
 window.title('Hangman') #title is hangman
 word_list= ['LOVE','MURDER','STRAWBERRY','BEAR','DEER','CHINA','GIRL','BOY','ALMOND','MILK','APPLE','JOKE','UMBRELLA',
             'STAR','RIVER','MONSTER','CAT','DOG','OCEAN','IDEA','BUNNY','AREA','EASTER','CRAFT','WAR','PUNCHER','SALT',
@@ -21,7 +23,7 @@ def newGame(): #function with new game
     numberOfGuesses =0 #for now number of guesses = 0
     
     the_word=random.choice(word_list) #choose random word from random list
-    the_word_withSpaces = " ".join(the_word) #returns the number of spaces how many letters in a random word
+    the_word_withSpaces = " ".join(the_word) #returns the number of spaces how many letters in a random word 
     lblWord.set(' '.join("_"*len(the_word))) #returns the number of spaces how many letters in a random word
 
 def guess(letter): #function with guess of letter
@@ -49,15 +51,14 @@ imgLabel.grid(row=0, column=0, columnspan=3, padx=10, pady=40) # window standart
 imgLabel.config(image=photos[0]) # first photo is none
 
 lblWord = StringVar()  # for window with length
-Label(window, textvariable  =lblWord,font=('consolas 24 bold')).grid(row=0, column=3 ,columnspan=6,padx=10) # window standarts
+Label(window, textvariable  =lblWord, bg='white', fg='brown', font=('consolas 24 bold')).grid(row=0, column=3 ,columnspan=6,padx=10) # window standarts
 
 n=0 # expression n = 0 is true or false
 for c in ascii_uppercase: # for one letter in strings with letters
      Button(window, text=c, command=lambda c=c: guess(c), font=('Helvetica 18'), width=4).grid(row=1+n//9,column=n%9) # make this window standarts
      n+=1 # expression n += 0 is true or false
 
-Button(window, text="New\nGame", command=lambda:newGame(), font=("Helvetica 10 bold")).grid(row=3, column=8) # button new game with anonim command 'lambda'
+Button(window, text="New\nGame", command=lambda:newGame(), bg='brown', font=("Helvetica 10 bold")).grid(row=3, column=8) # button new game with standarts and anonim command 'lambda'
 
 newGame() # tells to run new game
 window.mainloop() # tells Python to run the Tkinter event loop
-
